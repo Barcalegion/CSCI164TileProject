@@ -3,13 +3,59 @@ import heapq
 
 random.seed(13)
 
-InitialState = "123456078"
-GoalState = "123456780"
-
 StateDimension=3
-Actions = lambda s: ['u', 'd', 'l', 'r']
 
-def Result(state, action):
+class Problem:
+  
+  actions = lambda self, s: ['u', 'd', 'l', 'r']
+  
+  def __init__(self,state,goal_state):
+    self.initial = state
+    self.goal = goal_state
+
+  def get_init(self):
+    return (self.initial, self.goal)
+  
+problems = []
+problems.append(Problem("160273485","123456780"))
+problems.append(Problem("462301587" ,"123456780"))
+problems.append(Problem("821574360","123456780"))
+problems.append(Problem("840156372","123456780"))
+problems.append(Problem("530478126","123456780"))
+problems.append(Problem("068314257","123456780"))
+problems.append(Problem("453207186","123456780"))
+problems.append(Problem("128307645","123456780"))
+problems.append(Problem("035684712","123456780"))
+problems.append(Problem("684317025","123456780"))
+problems.append(Problem("028514637","123456780"))
+problems.append(Problem("618273540","123456780"))
+problems.append(Problem("042385671","123456780"))
+problems.append(Problem("420385716","123456780"))
+problems.append(Problem("054672813","123456780"))
+problems.append(Problem("314572680","123456780"))
+problems.append(Problem("637218045","123456780"))
+problems.append(Problem("430621875","123456780"))
+problems.append(Problem("158274036","123456780"))
+problems.append(Problem("130458726","123456780"))
+
+problems.append(Problem("16235A749C08DEBF","123456789ABCDEF0"))
+problems.append(Problem("0634217859ABDEFC","123456789ABCDEF0"))
+problems.append(Problem("012456379BC8DAEF","123456789ABCDEF0"))
+problems.append( Problem("51246A38097BDEFC","123456789ABCDEF0"))
+problems.append(Problem("12345678D9CFEBA0","123456789ABCDEF0"))
+
+problems.append(Problem("71A92CE03DB4658F","123456789ABCDEF0"))
+problems.append(Problem("02348697DF5A1EBC","123456789ABCDEF0"))
+problems.append( Problem("39A1D0EC7BF86452","123456789ABCDEF0"))
+problems.append(Problem("EAB480FC19D56237","123456789ABCDEF0"))
+problems.append(Problem("7DB13C52F46E80A9","123456789ABCDEF0"))
+
+"""
+for x in range(30):
+  print(problems[x].get_init(), x)
+"""
+
+def result(state, action):
   i = state.index('0')
   newState = list(state)
   row,col=i//StateDimension, i % StateDimension
@@ -29,11 +75,7 @@ def Result(state, action):
   newState[l], newState[r] = newState[r], newState[l] 
   return ''.join(newState)
 
-def PrintState(s):
-  for i in range(0,len(s),StateDimension):
-    print(s[i:i+StateDimension])
-
-def LegalMove(state, action):
+def legal_move(state, action):
   i = state.index('0')
   row,col=i//StateDimension, i % StateDimension
   if ( (action=='u' and row==0) or
@@ -42,3 +84,9 @@ def LegalMove(state, action):
        (action=='r' and col==StateDimension-1)):
       return False
   return True
+
+def print_state(s):
+  print("\n") 
+  print("node state: ")
+  for i in range(0,len(s),StateDimension):
+    print(s[i:i+StateDimension])
