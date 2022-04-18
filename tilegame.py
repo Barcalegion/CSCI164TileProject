@@ -8,6 +8,7 @@ StateDimension=3
 class Problem:
   
   actions = lambda self, s: ['u', 'd', 'l', 'r']
+  opposite = dict([('u','d'),('d','u'),('l','r'),('r','l'), (None, None)])
   
   def __init__(self,state,goal_state):
     self.initial = state
@@ -84,6 +85,23 @@ def legal_move(state, action):
        (action=='r' and col==StateDimension-1)):
       return False
   return True
+
+def out_of_place(left, right):
+  distances = [left[i]!=right[i] and right[i] != '0'
+     for i in range(StateDimension**2)]
+  return sum(distances)
+
+def single_tile_manhattan_distance(tile, left, right):
+  leftIndex = left.index(tile)
+  rightIndex = right.index(tile)
+  return (abs(leftIndex//StateDimension-rightIndex//StateDimension) +
+          abs(leftIndex%StateDimension-rightIndex%StateDimension))
+
+def manhattan_distance(left, right):
+  distances = [single_tile_manhattan_distance(tile, left, right) 
+    for tile in [str(c) for c in range(1, StateDimension**2)]]
+  ### print ("Distances= ", distances)
+  return sum(distances)
 
 def print_state(s):
   print("\n") 

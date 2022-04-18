@@ -1,6 +1,6 @@
 import tilegame as tg
 import queue as q
-import priorityqueue as pq
+import lifoqueue as lq
 
 NODE_LIST = q.Queue()
 NUM_EXPANDED = 0
@@ -26,18 +26,18 @@ def depth_first_search(problem):
     DEPTH = 0
     NUM_EXPANDED = 0
     
-    node = Node(problem.initial,"root","root",DEPTH)
+    node = Node(problem.initial,"root",None,DEPTH)
     NODE_LIST.put(node)
     
     if(is_goal(node.state,problem)):
         return node
         
-    frontier = pq.PriorityQueue()
+    frontier = lq.LifoQueue()
     frontier.put(node)
     reached = {problem.initial}
     
     while not is_empty(frontier):
-        node = frontier.get() 
+        node = frontier.get()
         DEPTH += 1
         NUM_EXPANDED = NUM_EXPANDED + 1
         
@@ -47,12 +47,13 @@ def depth_first_search(problem):
                 if is_goal(s, problem):
                     NODE_LIST.put(child)
                     return child
-                    
+                
+                #without reached, dfs will enter a cycle
                 if s not in reached:
                     reached.add(s)
                     frontier.put(child)
                     NODE_LIST.put(child)
-
+                
     return failed()
 
 def expand(problem, node):
