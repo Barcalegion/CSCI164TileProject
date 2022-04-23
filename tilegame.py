@@ -55,6 +55,7 @@ problems.append(Problem("045372816","123456780"))
 problems.append(Problem("721804356","123456780"))
 problems.append(Problem("237416B8590CDAEF","123456789ABCDEF0"))
 problems.append(Problem("132456879ABCDE0F","123456789ABCDEF0"))
+problems.append(Problem("12736948DE50AFCB","123456789ABCDEF0"))
 
 """
 for x in range(30):
@@ -97,8 +98,28 @@ def out_of_place(left, right):
   return sum(distances)
 
 def single_tile_manhattan_distance(tile, left, right):
-  leftIndex = left.index(tile)
-  rightIndex = right.index(tile)
+  if(tile == "10"):
+    leftIndex = left.index('A')
+    rightIndex = right.index('A')
+  elif(tile == "11"):
+    leftIndex = left.index('B')
+    rightIndex = right.index('B')
+  elif(tile == "12"):
+    leftIndex = left.index('C')
+    rightIndex = right.index('C')
+  elif(tile == "13"):
+    leftIndex = left.index('D')
+    rightIndex = right.index('D')
+  elif(tile == "14"):
+    leftIndex = left.index('E')
+    rightIndex = right.index('E')
+  elif(tile == "15"):
+    leftIndex = left.index('F')
+    rightIndex = right.index('F')
+  else:
+    leftIndex = left.index(tile)
+    rightIndex = right.index(tile)
+    
   return (abs(leftIndex//StateDimension-rightIndex//StateDimension) +
           abs(leftIndex%StateDimension-rightIndex%StateDimension))
 
@@ -107,6 +128,20 @@ def manhattan_distance(left, right):
     for tile in [str(c) for c in range(1, StateDimension**2)]]
   ### print ("Distances= ", distances)
   return sum(distances)
+
+def RandomWalk(state, steps):
+  actionSequence = []
+  actionLast = None
+  for i in range(steps):
+    action = None
+    while action==None:
+      action = random.choice(problems[0].actions(state))
+      action = action if (legal_move(state, action) 
+          and action!= problems[0].opposite[actionLast]) else None
+    actionLast = action
+    state = result(state, action)
+    actionSequence.append(action)
+  return state, actionSequence
 
 def print_state(s):
   print("\n") 

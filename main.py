@@ -32,8 +32,7 @@ def solution(nodes):
     reversed_list = sequence[::-1]
 
     return reversed_list
-
-
+"""
 tic = t.perf_counter()
 astar.a_star_search(tg.problems[30])
 toc = t.perf_counter()
@@ -53,10 +52,14 @@ astar.a_star_search(tg.problems[32])
 toc = t.perf_counter()
 print("Sequence to find solution: ", solution(astar.NODE_LIST))
 print("Number of expanded nodes to find solution: ", astar.NUM_EXPANDED)
-print(f"Time taken to find solution: {toc-tic:0.4f} seconds")
+print(f"Time taken to find solution: {toc-tic:0.4f}5 seconds")
+"""
+tg.StateDimension = 4
+print(tg.RandomWalk("123456789ABCDEF0",25))
+tg.StateDimension = 4
 
 tic = t.perf_counter()
-astar.a_star_search(tg.problems[33])
+astar.a_star_search(tg.problems[34])
 toc = t.perf_counter()
 print("Sequence to find solution: ", solution(astar.NODE_LIST))
 print("Number of expanded nodes to find solution: ", astar.NUM_EXPANDED)
