@@ -47,9 +47,14 @@ problems.append(Problem("12345678D9CFEBA0","123456789ABCDEF0"))
 
 problems.append(Problem("71A92CE03DB4658F","123456789ABCDEF0"))
 problems.append(Problem("02348697DF5A1EBC","123456789ABCDEF0"))
-problems.append( Problem("39A1D0EC7BF86452","123456789ABCDEF0"))
+problems.append(Problem("39A1D0EC7BF86452","123456789ABCDEF0"))
 problems.append(Problem("EAB480FC19D56237","123456789ABCDEF0"))
 problems.append(Problem("7DB13C52F46E80A9","123456789ABCDEF0"))
+
+problems.append(Problem("045372816","123456780"))
+problems.append(Problem("721804356","123456780"))
+problems.append(Problem("237416B8590CDAEF","123456789ABCDEF0"))
+problems.append(Problem("132456879ABCDE0F","123456789ABCDEF0"))
 
 """
 for x in range(30):

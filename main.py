@@ -4,6 +4,8 @@ import depthfirstsearch as dfs
 import iterativedeepeningdfs as idfs
 import astarsearch as astar
 import iterativedeepeningastar as iastar
+import time as t
+
 """
 function to get the sequence for the solution of the puzzle.
 argument is a queue that contains all the nodes reached.
@@ -30,6 +32,35 @@ def solution(nodes):
     reversed_list = sequence[::-1]
 
     return reversed_list
+
+
+tic = t.perf_counter()
+astar.a_star_search(tg.problems[30])
+toc = t.perf_counter()
+print("Sequence to find solution: ", solution(astar.NODE_LIST))
+print("Number of expanded nodes to find solution: ", astar.NUM_EXPANDED)
+print(f"Time taken to find solution: {toc-tic:0.4f} seconds")
+
+tic = t.perf_counter()
+astar.a_star_search(tg.problems[31])
+toc = t.perf_counter()
+print("Sequence to find solution: ", solution(astar.NODE_LIST))
+print("Number of expanded nodes to find solution: ", astar.NUM_EXPANDED)
+print(f"Time taken to find solution: {toc-tic:0.4f} seconds")
+
+tic = t.perf_counter()
+astar.a_star_search(tg.problems[32])
+toc = t.perf_counter()
+print("Sequence to find solution: ", solution(astar.NODE_LIST))
+print("Number of expanded nodes to find solution: ", astar.NUM_EXPANDED)
+print(f"Time taken to find solution: {toc-tic:0.4f} seconds")
+
+tic = t.perf_counter()
+astar.a_star_search(tg.problems[33])
+toc = t.perf_counter()
+print("Sequence to find solution: ", solution(astar.NODE_LIST))
+print("Number of expanded nodes to find solution: ", astar.NUM_EXPANDED)
+print(f"Time taken to find solution: {toc-tic:0.4f} seconds")
 
 """
 #breadth first search
@@ -70,6 +101,7 @@ for i in range(30):
     print("Sequence to find solution: ", solution(astar.NODE_LIST))
     print("Number of expanded nodes to find solution: ", astar.NUM_EXPANDED, "\n")
 """
+"""
 #iterative deepening a star
 for i in range(30):
     if i == 20:
@@ -78,3 +110,4 @@ for i in range(30):
     iastar.iterative_deepening_a_star_search(tg.problems[i])
     #print("Sequence to find solution: ", solution(astar.NODE_LIST))
     #print("Number of expanded nodes to find solution: ", astar.NUM_EXPANDED, "\n")
+"""
