@@ -6,33 +6,38 @@ import astarsearch as astar
 import iterativedeepeningastar as iastar
 import time as t
 import idas as ida
+import ctypes
 
 """
 function to get the sequence for the solution of the puzzle.
 argument is a queue that contains all the nodes reached.
 """
 def solution(nodes):
-    node_list = nodes
+    return nodes.node_list()
+    """
+    #node_list = nodes
     node = []
     i = 0
+    
     while not nodes.empty():
         node.append(nodes.get())
         node_state = node[i].state
         i = i + 1
-    
+
     goal_child = node[-1]
     sequence = []
     current_node = goal_child
     sequence.append(current_node.action)
-
+    
     while current_node.parent != "root":
        parent = current_node.parent
        sequence.append(parent.action)
        current_node = parent
 
     reversed_list = sequence[::-1]
-
+    
     return reversed_list
+    """
 
 """
 tic = t.perf_counter()
@@ -104,7 +109,7 @@ for i in range(30):
     print("Sequence to find solution: ", solution(astar.NODE_LIST))
     print("Number of expanded nodes to find solution: ", astar.NUM_EXPANDED, "\n")
 """
-
+"""
 #iterative deepening a star
 for i in range(30):
     if i == 20:
@@ -116,4 +121,6 @@ for i in range(30):
         print("Sequence to find solution: ", solution(iastar.NODE_LIST))
         print("Number of expanded nodes to find solution: ", iastar.NUM_EXPANDED, "\n")
 
-
+"""
+print(solution(ida.iterative_deepening_a_star_search(tg.problems[0])))
+print(ida.NUM_EXPANDED)
