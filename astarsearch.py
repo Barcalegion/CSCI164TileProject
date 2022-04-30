@@ -1,6 +1,7 @@
 import tilegame as tg
 import queue as q
 import priorityqueue as pq
+import heapq as hq
 
 COST = 0
 NODE_LIST = q.Queue()
@@ -13,7 +14,7 @@ class Node:
         self.parent = parent
         self.action = action
         self.cost = cost
-
+        
     def print_node(self):
         tg.print_state(self.state)
         if(self.parent != "root"):
@@ -24,7 +25,9 @@ def a_star_search(problem):
     global COST
     global NODE_LIST
     global NUM_EXPANDED
+    
     NUM_EXPANDED = 0
+    
     node = Node(problem.initial,"root",None,0)
     frontier = pq.PriorityQueue()
     frontier.put(node,problem)

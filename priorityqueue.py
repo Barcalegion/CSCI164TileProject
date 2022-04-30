@@ -1,17 +1,11 @@
 import enum
 import tilegame as tg
-"""
-class Actions(enum.Enum):
-    u = 0
-    d = 1
-    l = 2
-    r = 3
-    root = 4
-"""
+  
 class PriorityQueue(object):
     
     def __init__(self):
         self.queue = []
+        
         
     def __str__(self):
         return ' '.join([str(i) for i in self.queue])
@@ -19,10 +13,9 @@ class PriorityQueue(object):
     def empty(self):
         return len(self.queue) == 0
 
-    def put(self,node,problem):
-        evaluation_function(node,problem)
+    def put(self,node):
+        #evaluation_function(node,problem)
         self.queue.append(node)
-        
         
     def len(self):
         return len(self.queue)
@@ -33,18 +26,23 @@ class PriorityQueue(object):
             print("state: ", self.queue[x].state,"action: ",self.queue[x].action, " cost: ",self.queue[x].cost)
 
     def get(self):
+        
         minimum = 10000000
         index = 0
+
         for i in range(len(self.queue)):
             if self.queue[i].cost < minimum:
                 minimum = self.queue[i].cost 
                 item = self.queue[i]
                 index = i
+         
+        item = self.queue[index]
         del self.queue[index]
         return item
 
 #choose a hueristic function down here!!!
 def evaluation_function(node,problem):
+    
     if node.parent != "root":
         current_node = node
         

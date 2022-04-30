@@ -5,6 +5,7 @@ import iterativedeepeningdfs as idfs
 import astarsearch as astar
 import iterativedeepeningastar as iastar
 import time as t
+import idas as ida
 
 """
 function to get the sequence for the solution of the puzzle.
@@ -32,6 +33,7 @@ def solution(nodes):
     reversed_list = sequence[::-1]
 
     return reversed_list
+
 """
 tic = t.perf_counter()
 astar.a_star_search(tg.problems[30])
@@ -47,24 +49,22 @@ print("Sequence to find solution: ", solution(astar.NODE_LIST))
 print("Number of expanded nodes to find solution: ", astar.NUM_EXPANDED)
 print(f"Time taken to find solution: {toc-tic:0.4f} seconds")
 
+tg.StateDimension = 4
+
 tic = t.perf_counter()
 astar.a_star_search(tg.problems[32])
 toc = t.perf_counter()
 print("Sequence to find solution: ", solution(astar.NODE_LIST))
 print("Number of expanded nodes to find solution: ", astar.NUM_EXPANDED)
 print(f"Time taken to find solution: {toc-tic:0.4f}5 seconds")
-"""
-tg.StateDimension = 4
-print(tg.RandomWalk("123456789ABCDEF0",25))
-tg.StateDimension = 4
 
 tic = t.perf_counter()
-astar.a_star_search(tg.problems[34])
+astar.a_star_search(tg.problems[33])
 toc = t.perf_counter()
 print("Sequence to find solution: ", solution(astar.NODE_LIST))
 print("Number of expanded nodes to find solution: ", astar.NUM_EXPANDED)
 print(f"Time taken to find solution: {toc-tic:0.4f} seconds")
-
+"""
 """
 #breadth first search
 for i in range(30):
@@ -104,13 +104,16 @@ for i in range(30):
     print("Sequence to find solution: ", solution(astar.NODE_LIST))
     print("Number of expanded nodes to find solution: ", astar.NUM_EXPANDED, "\n")
 """
-"""
+
 #iterative deepening a star
 for i in range(30):
     if i == 20:
         tg.StateDimension = 4
     print("PROBLEM: ", i)
-    iastar.iterative_deepening_a_star_search(tg.problems[i])
-    #print("Sequence to find solution: ", solution(astar.NODE_LIST))
-    #print("Number of expanded nodes to find solution: ", astar.NUM_EXPANDED, "\n")
-"""
+    if(iastar.iterative_deepening_a_star_search(tg.problems[i]) == False):
+        print("Expanded node limit reached")
+    else:
+        print("Sequence to find solution: ", solution(iastar.NODE_LIST))
+        print("Number of expanded nodes to find solution: ", iastar.NUM_EXPANDED, "\n")
+
+

@@ -26,7 +26,7 @@ def breadth_first_search(problem):
     
     if(is_goal(node.state,problem)):
         return node
-        
+
     frontier = q.Queue()
     frontier.put(node)
     reached = {problem.initial}
@@ -35,6 +35,10 @@ def breadth_first_search(problem):
         node = frontier.get()
         
         NUM_EXPANDED = NUM_EXPANDED + 1
+
+        if(NUM_EXPANDED % 2000000) == 0:
+            print("2 million nodes expanded")
+    
         for child in expand(problem, node):
             
             if(child.action != "Illegal"):
