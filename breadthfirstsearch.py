@@ -17,6 +17,23 @@ class Node:
             print("parent node: " + self.parent.state)
         print("node action: " + self.action)
 
+    def node_list(self):
+        current_node = self
+        
+        sequence = []
+        
+        while current_node.parent != "root":
+            parent = current_node.parent
+            sequence.append(current_node.action)
+            current_node = parent
+        
+        reversed_list = sequence[::-1]
+        
+        return reversed_list
+               
+    def __lt__(self, other):
+        return self.cost < other.cost
+
 def breadth_first_search(problem):
     global NUM_EXPANDED
     NUM_EXPANDED = 0
@@ -36,8 +53,8 @@ def breadth_first_search(problem):
         
         NUM_EXPANDED = NUM_EXPANDED + 1
 
-        if(NUM_EXPANDED % 2000000) == 0:
-            print("2 million nodes expanded")
+        if(NUM_EXPANDED >= 10000000):
+            return False
     
         for child in expand(problem, node):
             

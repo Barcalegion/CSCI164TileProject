@@ -10,7 +10,7 @@ STORE_NUM_EXPANDED = 0
 
 def evaluation_function(node,problem):
         if node.parent != "root":
-    
+        
             current_node = node
         
             while node.parent != "root":
@@ -29,19 +29,38 @@ def evaluation_function(node,problem):
             
 class Node:
     
-    def __init__(self,state,parent,action,cost,problem):
-        self.state = state
-        self.parent = parent
-        self.action = action
-        self.cost = cost
-        self.problem = None
-        evaluation_function(self,problem)
-        
-    def print_node(self):
-        tg.print_state(self.state)
-        if(self.parent != "root"):
-            print("parent node: " + self.parent.state)
-        print("node action: " + self.action)
+        def __init__(self,state,parent,action,cost,problem):
+                self.state = state
+                self.parent = parent
+                self.action = action
+                self.cost = cost
+                self.problem = None
+                evaluation_function(self,problem)
+
+        def print_node(self):
+                tg.print_state(self.state)
+                if(self.parent != "root"):
+                        print("parent node: " + self.parent.state)
+                print("node action: " + self.action)
+                
+        def node_list(self):
+                current_node = self
+                
+                sequence = []
+                
+                while current_node.parent != "root":
+                        parent = current_node.parent
+                        sequence.append(current_node.action)
+                        current_node = parent
+                        
+                sequence.append(current_node.parent)
+                
+                reversed_list = sequence[::-1]
+                
+                return reversed_list
+               
+        def __lt__(self, other):
+                return self.cost < other.cost
 
 def iterative_deepening_a_star_search(problem):
     global COST
@@ -49,60 +68,69 @@ def iterative_deepening_a_star_search(problem):
 
     COST = tg.manhattan_distance(problem.initial,problem.goal)
     
-    STORE_NUM_EXPANDED = 0
     
     while True:
-        
+        STORE_NUM_EXPANDED = 0
         result = iterative_deepening_search(problem, COST)
         
         if(result == None):
             return False
+        if(result == Node):
+                return result
         
         if result != CUTOFF:
             return result
 
 def iterative_deepening_search(problem,limit):
-    global COST
-    global NODE_LIST
-    global NUM_EXPANDED
-    global CUTOFF
-    global STORE_NUM_EXPANDED
+        global COST
+        global NODE_LIST
+        global NUM_EXPANDED
+        global CUTOFF
+        global STORE_NUM_EXPANDED
+        index = problem.initial
+        minindex = index
+        minm = 100
+
+        NUM_EXPANDED = 0
+
+        node = Node(problem.initial,"root",None,0,problem)
+        frontier = {}
+        frontier[index] = node
     
-    
-    print(STORE_NUM_EXPANDED)
-    NUM_EXPANDED = 0
-    
-    node = Node(problem.initial,"root",None,0,problem)
-    frontier = pq.PriorityQueue()
-    frontier.put(node)
-    
-    while not is_empty(frontier):
-        
-        node = frontier.get()
-        
-        NUM_EXPANDED += 1
-        
-        STORE_NUM_EXPANDED += 1
-        
-        if(STORE_NUM_EXPANDED >= 100000):
-            return None
-        
-        if is_goal(node.state,problem):
-            return node
-        
-        if node.cost > limit:
-        
-            CUTOFF = node.cost
-            COST = node.cost
-            result = CUTOFF
-    
-        else:
-            for child in expand(problem,node):
-                if(child.action != "Illegal"):
-                    frontier.put(child)
-                    NODE_LIST.put(child)
-                     
-    return result
+        while len(frontier) != 0:
+
+                minindex = min(frontier, key=frontier.get)
+                node = frontier[minindex]
+                del frontier[minindex]
+
+                NUM_EXPANDED += 1
+
+                STORE_NUM_EXPANDED += 1
+
+                if(STORE_NUM_EXPANDED >= 100000):
+                        return None
+
+                if is_goal(node.state,problem):
+                        return node
+                
+                if node.cost > limit:
+                        CUTOFF = node.cost
+                        COST = node.cost
+                        result = CUTOFF
+
+                else:
+                        for child in expand(problem,node):
+                                if(child.action != "Illegal"):
+                                        index = child.state
+                                        if(index in frontier):
+                                                if(child.cost < frontier[index].cost):
+                                                        frontier[index] = child
+                                                        NODE_LIST.put(child)
+                                        else:
+                                                frontier[index] = child
+                                                NODE_LIST.put(child)
+
+        return result
 
 def is_empty(queue):
     if(queue.empty()):
@@ -123,7 +151,4 @@ def expand(problem, node):
         else:
             yield Node(s,node,"Illegal",0,problem)
             
-
-def failed():
-    return False
 

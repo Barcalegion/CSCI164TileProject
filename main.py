@@ -7,9 +7,6 @@ import iterativedeepeningastar as iastar
 import time as t
 import idas as ida
 
-import ctypes
-
-
 def result(state, action):
     i = state.index('0')
     newState = list(state)
@@ -32,12 +29,16 @@ def result(state, action):
     return ''.join(newState)
 
 """
-function to get the sequence for the solution of the puzzle.
-argument is a queue that contains all the nodes reached.
+function calls class Node method to get the sequence for the solution of the puzzle.
+each algorithm contains its own Node class
 """
 def solution(nodes):
     return nodes.node_list()
 
+"""
+Uses List with actions, "root" is first element,
+to test solutions produced from algorithms
+"""
 def test_results(movesList,ind):
     states = []
     newState = tg.problems[ind].initial
@@ -51,116 +52,12 @@ def test_results(movesList,ind):
         
     return states
     
-    """
-    #node_list = nodes
-    node = []
-    i = 0
-    
-    while not nodes.empty():
-        node.append(nodes.get())
-        node_state = node[i].state
-        i = i + 1
-
-    goal_child = node[-1]
-    sequence = []
-    current_node = goal_child
-    sequence.append(current_node.action)
-    
-    while current_node.parent != "root":
-       parent = current_node.parent
-       sequence.append(parent.action)
-       current_node = parent
-
-    reversed_list = sequence[::-1]
-    
-    return reversed_list
-    """
-    
-"""
-tic = t.perf_counter()
-astar.a_star_search(tg.problems[30])
-toc = t.perf_counter()
-print("Sequence to find solution: ", solution(astar.NODE_LIST))
-print("Number of expanded nodes to find solution: ", astar.NUM_EXPANDED)
-print(f"Time taken to find solution: {toc-tic:0.4f} seconds")
-
-tic = t.perf_counter()
-astar.a_star_search(tg.problems[31])
-toc = t.perf_counter()
-print("Sequence to find solution: ", solution(astar.NODE_LIST))
-print("Number of expanded nodes to find solution: ", astar.NUM_EXPANDED)
-print(f"Time taken to find solution: {toc-tic:0.4f} seconds")
-
-tg.StateDimension = 4
-
-tic = t.perf_counter()
-astar.a_star_search(tg.problems[32])
-toc = t.perf_counter()
-print("Sequence to find solution: ", solution(astar.NODE_LIST))
-print("Number of expanded nodes to find solution: ", astar.NUM_EXPANDED)
-print(f"Time taken to find solution: {toc-tic:0.4f}5 seconds")
-
-tic = t.perf_counter()
-astar.a_star_search(tg.problems[33])
-toc = t.perf_counter()
-print("Sequence to find solution: ", solution(astar.NODE_LIST))
-print("Number of expanded nodes to find solution: ", astar.NUM_EXPANDED)
-print(f"Time taken to find solution: {toc-tic:0.4f} seconds")
-"""
-"""
-#breadth first search
-for i in range(30):
-    if i == 20:
-        tg.StateDimension = 4
-    print("PROBLEM: ", i, " ", tg.problems[i].initial)
-    bfs.breadth_first_search(tg.problems[i])
-    print("Sequence to find solution: ", solution(bfs.NODE_LIST))
-    print("Number of expanded nodes to find solution: ", bfs.NUM_EXPANDED, "\n")
-#depth first search
-for i in range(30):
-    if i == 20:
-        tg.StateDimension = 4
-    print("PROBLEM: ", i)
-    dfs.depth_first_search(tg.problems[i])
-    print("Sequence to find solution: ", solution(dfs.NODE_LIST))
-    print("Number of expanded nodes to find solution: ", dfs.NUM_EXPANDED, "\n")
-"""
-"""
-#iterative deepening depth first search
-for i in range(30):
-    if i == 20:
-        tg.StateDimension = 4
-    print("PROBLEM: ", i)
-    idfs.iterative_deepening_search(tg.problems[i])
-    print("Sequence to find solution: ", solution(idfs.NODE_LIST))
-    print("Number of expanded nodes to find solution: ", idfs.NUM_EXPANDED, "\n")
-"""
-"""
-#a star search
-for i in range(30):
-    if i == 20:
-        tg.StateDimension = 4
-    print("PROBLEM: ", i)
-    astar.a_star_search(tg.problems[i])
-    print("Sequence to find solution: ", solution(astar.NODE_LIST))
-    print("Number of expanded nodes to find solution: ", astar.NUM_EXPANDED, "\n")
-"""
-"""
-#iterative deepening a star
-for i in range(30):
-    if i == 20:
-        tg.StateDimension = 4
-    print("PROBLEM: ", i)
-    if(iastar.iterative_deepening_a_star_search(tg.problems[i]) == False):
-        print("Expanded node limit reached")
-    else:
-        print("Sequence to find solution: ", solution(iastar.NODE_LIST))
-        print("Number of expanded nodes to find solution: ", iastar.NUM_EXPANDED, "\n")
 
 """
+Each for loop executes an algorithm on all the problems.
 
-#bfs one million expanded nodes cap
 """
+#bfs with one million expanded nodes limit
 for i in range(30):
     
     if i >= 20:
@@ -187,8 +84,6 @@ for i in range(30):
         print("Number of expanded nodes: ", bfs.NUM_EXPANDED, "\n")
         print(f"Time to find solution: {toc-tic:0.4f} seconds")
         print()
-        
-"""
 """
 #dfs one million expanded nodes cap
 for i in range(30):
@@ -275,8 +170,9 @@ for i in range(30):
         print("Number of expanded nodes: ", astar.NUM_EXPANDED, "\n")
         print(f"Time to find solution: {toc-tic:0.4f} seconds")
         print()
-#IDA* one hundred thousand expanded node cap
 """
+"""
+#IDA* one hundred thousand expanded node cap
 for i in range(30):
     
     if i >= 20:
@@ -286,19 +182,19 @@ for i in range(30):
         
     print("PROBLEM: ", i)
     tic = t.perf_counter()
-    results = ida.iterative_deepening_a_star_search(tg.problems[i])
+    results = iastar.iterative_deepening_a_star_search(tg.problems[i])
     toc = t.perf_counter()
     
     if(results == False):
         print("Expanded node limit reached")
-        print("Number of expanded nodes: ", ida.NUM_EXPANDED, "\n")
+        print("Number of expanded nodes: ", iastar.NUM_EXPANDED, "\n")
         print(f"Time to find solution: {toc-tic:0.4f} seconds")
         print()
     else:
         results_list = solution(results)
         print("Sequence: ", results_list)
         print("Testing results: ", test_results(results_list,i))
-        print("Number of expanded nodes: ", ida.NUM_EXPANDED, "\n")
+        print("Number of expanded nodes: ", iastar.NUM_EXPANDED, "\n")
         print(f"Time to find solution: {toc-tic:0.4f} seconds")
         print()
-
+"""
