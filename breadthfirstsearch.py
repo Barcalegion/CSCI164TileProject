@@ -75,5 +75,5 @@ def is_empty(queue):
     return False
 
 def failed():
-    return print("BFS failed!")
+    return "BFS failed!"
     

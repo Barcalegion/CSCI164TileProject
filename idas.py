@@ -10,7 +10,7 @@ STORE_NUM_EXPANDED = 0
 
 def evaluation_function(node,problem):
         if node.parent != "root":
-    
+        
             current_node = node
         
             while node.parent != "root":
@@ -42,7 +42,7 @@ class Node:
                 if(self.parent != "root"):
                         print("parent node: " + self.parent.state)
                 print("node action: " + self.action)
-                s
+                
         def node_list(self):
                 current_node = self
                 
@@ -50,9 +50,11 @@ class Node:
                 
                 while current_node.parent != "root":
                         parent = current_node.parent
-                        sequence.append(parent.action)
+                        sequence.append(current_node.action)
                         current_node = parent
-
+                        
+                sequence.append(current_node.parent)
+                
                 reversed_list = sequence[::-1]
                 
                 return reversed_list
@@ -66,11 +68,9 @@ def iterative_deepening_a_star_search(problem):
 
     COST = tg.manhattan_distance(problem.initial,problem.goal)
     
-    STORE_NUM_EXPANDED = 0
-    count = 0
     
     while True:
-        
+        STORE_NUM_EXPANDED = 0
         result = iterative_deepening_search(problem, COST)
         
         if(result == None):
@@ -87,7 +87,7 @@ def iterative_deepening_search(problem,limit):
         global NUM_EXPANDED
         global CUTOFF
         global STORE_NUM_EXPANDED
-        index = int(problem.initial)
+        index = problem.initial
         minindex = index
         minm = 100
 
@@ -121,7 +121,7 @@ def iterative_deepening_search(problem,limit):
                 else:
                         for child in expand(problem,node):
                                 if(child.action != "Illegal"):
-                                        index = int(child.state)
+                                        index = child.state
                                         if(index in frontier):
                                                 if(child.cost < frontier[index].cost):
                                                         frontier[index] = child
@@ -151,7 +151,4 @@ def expand(problem, node):
         else:
             yield Node(s,node,"Illegal",0,problem)
             
-
-def failed():
-    return False
 

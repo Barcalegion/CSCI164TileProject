@@ -4,9 +4,9 @@ import lifoqueue as lq
 import itertools
 
 NODE_LIST = q.Queue()
-NUM_EXPANDED = 0
 DEPTH = 0
 CUTOFF = 0
+STORE_NUM_EXPANDED = 0
 
 class Node:
     
@@ -22,31 +22,69 @@ class Node:
             print("parent node: " + self.parent.state)
         print("node action: " + self.action)
 
+    def node_list(self):
+        current_node = self
+                
+        sequence = []
+                
+        while current_node.parent != "root":
+            parent = current_node.parent
+            sequence.append(current_node.action)
+            current_node = parent
+                        
+        sequence.append(current_node.parent)
+                
+        reversed_list = sequence[::-1]
+                
+        return reversed_list
+               
+        def __lt__(self, other):
+            return self.cost < other.cost
+
 def iterative_deepening_search(problem):
+    global STORE_NUM_EXPANDED
+    
+    
     
     for depth in itertools.count():
         
+        STORE_NUM_EXPANDED = 0
+        
         result = depth_limited_search(problem, depth)
-
+        
+        if(result == None):
+            return False
+        if(result == Node):
+                return result
+            
         if result != CUTOFF:
             return result
 
 def depth_limited_search(problem, limit):
     global DEPTH
     global CUTOFF
-    global NUM_EXPANDED
-
-    NUM_EXPANDED = 0
+    global STORE_NUM_EXPANDED
+    count = 0
     DEPTH = 0
     frontier = lq.LifoQueue()
     frontier.put(Node(problem.initial,"root",None,DEPTH))
     result = failed()
     
     while not is_empty(frontier):
+        
+        if(count == 0):
+            STORE_NUM_EXPANDED -= 1
+            
         node = frontier.get()
-        NUM_EXPANDED += 1
+        count = 0
+        STORE_NUM_EXPANDED += 1
+
+        if(STORE_NUM_EXPANDED >= 1000000):
+            return None
+        
         if(is_goal(node.state,problem)):
             return node
+        
         #depth(node)
         if node.depth >= limit or (node.depth == 0 and limit == 0):
             CUTOFF = node.depth
@@ -58,6 +96,8 @@ def depth_limited_search(problem, limit):
                     child.depth = depth(child)
                     frontier.put(child)
                     NODE_LIST.put(child)
+                    count+=1
+                    
     return result
 
 def expand(problem, node):
@@ -103,5 +143,4 @@ def depth(node):
     return d
 
 def failed():
-    return False
-    
+    return "IDDFS failed!"
